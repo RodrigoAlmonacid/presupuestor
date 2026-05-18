@@ -8,4 +8,7 @@ export default defineConfig({
     react(),
     tailwindcss()
   ],
+  build: {
+    outDir: 'build', // OBLIGA A VITE A USAR LA CARPETA "build"
+  },
 })
