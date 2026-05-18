@@ -10,7 +10,7 @@ export default function Home() { // Supongamos que manejas la página con un est
       
       {/* CARD BIENVENIDA */}
       <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 text-center w-full max-w-md mb-6">
-        <h1 className="text-3xl font-extrabold text-gray-900 mb-2">Presupuestador Pro</h1>
+        <h1 className="text-3xl font-extrabold text-gray-900 mb-2">Presupuestador</h1>
         <p className="text-gray-500 mb-8 text-sm">Herramienta ágil para preventistas</p>
         
         {/* BOTONES DE NAVEGACIÓN */}
