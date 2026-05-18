@@ -1,6 +1,6 @@
 import { jsPDF } from 'jspdf'; 
 import autoTable from 'jspdf-autotable';
-import logo from './../../../public/favicon.png'
+import logo from './../../assets/favicon.png'
 
 export default function BotonExport({ datosGenerales, items }) {
   

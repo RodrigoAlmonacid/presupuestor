@@ -1,44 +1,89 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import DatosGenerales from './../../Components/DatosGenerales/DatosGenerales';
 import FormItem from './../../Components/FormItem/FormItem';
 import TablaItems from './../../Components/TablaItems/TablaItems';
 import BotonExport from './../../Components/BotonExport/BotonExport';
 
 export default function NuevoPresupuesto() {
-  const [datosGenerales, setDatosGenerales] = useState({ cliente: '', vendedor: '', fecha: '' });
+  const [datosGenerales, setDatosGenerales] = useState({ cliente: '', vendedor: '', fecha: new Date().toISOString().split('T')[0] });
   const [items, setItems] = useState([]);
+  
+  // Generamos un ID único para ESTE presupuesto entero apenas se entra a la pantalla
+  const [idPresupuesto] = useState(() => crypto.randomUUID());
 
-  // Manejar cambios de cliente/vendedor
+  // --- EFECTO DE AUTO-GUARDADO ---
+  useEffect(() => {
+    // Si todavía no agregaron ninguna línea, no guardamos nada en el historial
+    if (items.length === 0) return;
+
+    // 1. Calcular el neto actual del presupuesto para el resumen del historial
+    const netoTotal = items.reduce((acc, item) => {
+      const subtotal = item.precio * item.cantidad;
+      return acc + (subtotal - (subtotal * (item.descuento / 100)));
+    }, 0);
+
+    // 2. Traer el historial existente del localStorage (o crear un array vacío si es el primero)
+    const historialPrevio = JSON.parse(localStorage.getItem('presupuestos')) || [];
+
+    // 3. Crear el objeto actualizado de este presupuesto
+    const presupuestoActualizado = {
+      id: idPresupuesto,
+      cliente: datosGenerales.cliente.trim() || 'Cliente sin nombre',
+      vendedor: datosGenerales.vendedor.trim() || 'Vendedor sin nombre',
+      fecha: datosGenerales.fecha,
+      items: items,
+      neto: netoTotal
+    };
+
+    // 4. Ver si este presupuesto ya existía en el historial
+    const index = historialPrevio.findIndex(p => p.id === idPresupuesto);
+
+    if (index !== -1) {
+      // Si ya existía (porque agregamos una 2da o 3ra línea), lo reemplazamos
+      historialPrevio[index] = presupuestoActualizado;
+    } else {
+      // Si es la primera línea, lo agregamos al principio de la lista (unshift)
+      historialPrevio.unshift(presupuestoActualizado);
+    }
+
+    // 5. Guardar el array completo de vuelta en localStorage convertido a string
+    localStorage.setItem('presupuestos', JSON.stringify(historialPrevio));
+
+  }, [items, datosGenerales, idPresupuesto]); // Se ejecuta cada vez que cambian las líneas o los datos del cliente/vendedor
+
+
+  // Funciones de control (las mismas que ya tenías)
   const handleDatosGeneralesChange = (e) => {
     const { name, value } = e.target;
     setDatosGenerales({ ...datosGenerales, [name]: value });
   };
 
-  // Agregar un producto al array
   const handleAgregarItem = (nuevoItem) => {
     setItems([...items, { ...nuevoItem, id: crypto.randomUUID() }]);
   };
 
-  // Eliminar un producto del array
   const handleEliminarItem = (id) => {
-    setItems(items.filter(item => item.id !== id));
+    const nuevaLista = items.filter(item => item.id !== id);
+    setItems(nuevaLista);
+
+    // SÚPER IMPORTANTE: Si borra la última línea de la tabla, deberíamos quitar el presupuesto completo del localStorage
+    if (nuevaLista.length === 0) {
+      const historialPrevio = JSON.parse(localStorage.getItem('presupuestos')) || [];
+      const historialFiltrado = historialPrevio.filter(p => p.id !== idPresupuesto);
+      localStorage.setItem('presupuestos', JSON.stringify(historialFiltrado));
+    }
   };
 
   return (
-    <div className="p-6 max-w-6xl mx-auto bg-gray-50 min-h-screen">
+    <div className="p-6 max-w-6xl mx-auto bg-gray-50 min-h-screen pb-20">
       <h2 className="text-3xl font-bold text-gray-800 mb-6">Crear Nuevo Presupuesto</h2>
       
-      {/* 1. Datos del Cliente */}
       <DatosGenerales onChangeDatos={handleDatosGeneralesChange} />
-      
-      {/* 2. Formulario para añadir items */}
       <FormItem onAgregarItem={handleAgregarItem} />
       
-      {/* 3. Tabla con los items agregados */}
       <h3 className="text-xl font-semibold text-gray-700 mb-4">Resumen del Presupuesto</h3>
       <TablaItems items={items} onEliminarItem={handleEliminarItem} />
       
-      {/* Aquí irá más adelante tu componente BotonExport.jsx */}
       <div className="mt-6 flex justify-end">
         <BotonExport datosGenerales={datosGenerales} items={items} />
       </div>
