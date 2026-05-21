@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import BotonExport from './../../Components/BotonExport/BotonExport'; // ¡Reutilizamos tu super botón!
+import BotonExport from './../../Components/BotonExport/BotonExport';
 import { Ruteo } from '../../const/routes';
 
 export default function Historial() {
@@ -81,7 +81,7 @@ export default function Historial() {
                   🗑️ Eliminar
                 </button>
 
-                {/* BOTÓN: EXPORTAR (Le sacamos el scale raro para que use el mismo ancho) */}
+                {/* BOTÓN: EXPORTAR */}
                 <div className="w-full sm:flex-1">
                   <BotonExport
                     datosGenerales={{
