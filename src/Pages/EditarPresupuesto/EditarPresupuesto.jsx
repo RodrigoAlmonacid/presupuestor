@@ -6,7 +6,7 @@ import TablaItems from './../../Components/TablaItems/TablaItems';
 import BotonExport from './../../Components/BotonExport/BotonExport';
 
 export default function EditarPresupuesto() {
-  const { id } = useParams(); // 1. Atrapamos el ID de la URL
+  const { id } = useParams();
   const navigate = useNavigate();
 
   // 2. Precargamos los datos generales buscando por ID

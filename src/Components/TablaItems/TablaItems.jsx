@@ -8,7 +8,6 @@ export default function TablaItems({ items, onEliminarItem }) {
     }
 
     // --- LÓGICA DE CÁLCULOS ACUMULADOS ---
-    // Reducimos el array de items para obtener los tres valores globales
     const totales = items.reduce(
         (acumulador, item) => {
             const subtotalItem = item.precio * item.cantidad;

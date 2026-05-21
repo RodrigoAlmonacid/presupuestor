@@ -52,7 +52,7 @@ export default function NuevoPresupuesto() {
   }, [items, datosGenerales, idPresupuesto]); // Se ejecuta cada vez que cambian las líneas o los datos del cliente/vendedor
 
 
-  // Funciones de control (las mismas que ya tenías)
+  // Funciones de control
   const handleDatosGeneralesChange = (e) => {
     const { name, value } = e.target;
     setDatosGenerales({ ...datosGenerales, [name]: value });

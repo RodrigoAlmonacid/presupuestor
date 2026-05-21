@@ -39,7 +39,7 @@ export default function Home() { // Supongamos que manejas la página con un est
             <div>
               <h4 className="font-bold text-amber-800 text-sm">Información Importante (Herramienta Local)</h4>
               <p className="text-xs text-amber-700 mt-1 leading-relaxed">
-                Esta herramienta es <strong>libre y gratuita</strong>. Para proteger tu privacidad y funcionar sin internet, los datos se guardan <strong>únicamente en este dispositivo y navegador</strong>.
+                Esta herramienta es <strong>libre y gratuita, por ello tiene limitaciones</strong>. Para proteger tu privacidad, los datos se guardan <strong>únicamente en este dispositivo y navegador</strong>.
               </p>
               <p className="text-xs text-amber-700 mt-2 font-medium">
                 Si borrás el caché/historial del navegador o cambiás de celular, los presupuestos anteriores no estarán disponibles.
