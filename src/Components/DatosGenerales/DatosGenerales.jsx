@@ -1,5 +1,4 @@
-
-export default function DatosGenerales({ onChangeDatos }) {
+export default function DatosGenerales({ onChangeDatos, datos }) {
   return (
     <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
       <div>
@@ -8,6 +7,8 @@ export default function DatosGenerales({ onChangeDatos }) {
           type="text"
           name="cliente"
           placeholder="Nombre del cliente"
+          // 🌟 MAGIA ACÁ: Si 'datos' existe y tiene cliente, lo muestra. Si no, queda vacío.
+          value={datos?.cliente || ''} 
           onChange={onChangeDatos}
           className="w-full border border-gray-300 p-2 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
         />
@@ -18,6 +19,8 @@ export default function DatosGenerales({ onChangeDatos }) {
           type="text"
           name="vendedor"
           placeholder="Nombre del vendedor"
+          // 🌟 MAGIA ACÁ TAMBIÉN
+          value={datos?.vendedor || ''} 
           onChange={onChangeDatos}
           className="w-full border border-gray-300 p-2 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
         />
@@ -27,7 +30,8 @@ export default function DatosGenerales({ onChangeDatos }) {
         <input
           type="date"
           name="fecha"
-          defaultValue={new Date().toISOString().split('T')[0]}
+          // Cambiamos defaultValue por value para que reaccione si viene una fecha del historial
+          value={datos?.fecha || new Date().toISOString().split('T')[0]} 
           onChange={onChangeDatos}
           className="w-full border border-gray-300 p-2 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
         />
