@@ -78,7 +78,7 @@ export default function NuevoPresupuesto() {
     <div className="p-6 max-w-6xl mx-auto bg-gray-50 min-h-screen pb-20">
       <h2 className="text-3xl font-bold text-gray-800 mb-6">Crear Nuevo Presupuesto</h2>
       
-      <DatosGenerales onChangeDatos={handleDatosGeneralesChange} />
+      <DatosGenerales onChangeDatos={handleDatosGeneralesChange} datos={datosGenerales}/>
       <FormItem onAgregarItem={handleAgregarItem} />
       
       <h3 className="text-xl font-semibold text-gray-700 mb-4">Resumen del Presupuesto</h3>
